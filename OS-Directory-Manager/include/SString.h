@@ -2,9 +2,12 @@
  * @file SString.h
  *
  * @author Leonardo Vencovsky (https://github.com/LeoVen)
- * @date 18/04/2018
+ * @author Eduardo Vencovsky  (https://github.com/eduvencovsky)
+ * @author Guilherme Pinazza  (https://github.com/pinazza)
  *
- * @brief Header file for @c String implementations in C
+ * @date 17/08/2018
+ *
+ * @brief Header file for @c String implementations
  *
  */
 
@@ -59,10 +62,6 @@ extern "C"
 	Status str_push_char_at(String *str, const char ch, size_t index);
 	Status str_push_char_back(String *str, const char ch);
 
-	//Status str_push_front(String *str, const char *ch);
-	//Status str_push_at(String *str, const char *ch, size_t index);
-	//Status str_push_back(String *str, const char *ch);
-
 	Status str_prepend(String *str1, String *str2);
 	//Status str_add(String *str1, String *str2, size_t index);
 	Status str_append(String *str1, String *str2);
@@ -70,9 +69,6 @@ extern "C"
 	Status str_pop_char_front(String *str);
 	Status str_pop_char_at(String *str, size_t index);
 	Status str_pop_char_back(String *str);
-
-	//Status str_remove(String *str, size_t from, size_t to);
-	//Status str_slice(String *str, size_t from, size_t to, const char *result);
 
 	Status str_display(String *str);
 	Status str_display_raw(String *str);
@@ -86,11 +82,7 @@ extern "C"
 	Status str_length(String *str, size_t *result);
 	size_t str_len(String *str);
 
-	//Status str_compare(String *str1, String *str2, int *result);
 	bool str_equals(String *str1, String *str2);
-
-	//Status str_copy(String *str, String **result);
-	//Status str_swap(String *str1, String *str2);
 
 	bool str_buffer_full(String *str);
 	bool str_buffer_empty(String *str);

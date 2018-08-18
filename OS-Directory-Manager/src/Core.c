@@ -2,12 +2,12 @@
  * @file Core.c
  *
  * @author Leonardo Vencovsky (https://github.com/LeoVen)
- * @date 04/04/2018
+ * @author Eduardo Vencovsky  (https://github.com/eduvencovsky)
+ * @author Guilherme Pinazza  (https://github.com/pinazza)
  *
- * @brief Source file for Core module
+ * @date 17/08/2018
  *
- * The Core includes an @c enum type for status codes and other utility
- * functions.
+ * @brief Core functions
  *
  */
 

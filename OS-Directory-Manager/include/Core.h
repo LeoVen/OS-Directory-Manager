@@ -2,12 +2,12 @@
  * @file Core.h
  *
  * @author Leonardo Vencovsky (https://github.com/LeoVen)
- * @date 04/04/2018
+ * @author Eduardo Vencovsky  (https://github.com/eduvencovsky)
+ * @author Guilherme Pinazza  (https://github.com/pinazza)
  *
- * @brief Header file for Core module
+ * @date 17/08/2018
  *
- * The Core includes an @c enum type for status codes and other utility
- * functions.
+ * @brief Main header file
  *
  */
 
@@ -17,14 +17,19 @@
 extern "C" {
 #endif
 
-#include <stdio.h>
+
+#define _CRTDBG_MAP_ALLOC  
 #include <stdlib.h>
+#include <crtdbg.h>
+
+#include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
 #include <math.h>
 #include <time.h>
 #include <ctype.h>
 #include <conio.h>
+
 
 #define CLEAR_SCREEN "cls"
 //#define CLEAR_SCREEN "clear"

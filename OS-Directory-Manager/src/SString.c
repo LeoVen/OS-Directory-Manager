@@ -2,9 +2,12 @@
  * @file SString.c
  *
  * @author Leonardo Vencovsky (https://github.com/LeoVen)
- * @date 18/04/2018
+ * @author Eduardo Vencovsky  (https://github.com/eduvencovsky)
+ * @author Guilherme Pinazza  (https://github.com/pinazza)
  *
- * @brief Source file for @c String implementations in C
+ * @date 17/08/2018
+ *
+ * @brief Source file for @c String implementations
  *
  */
 
@@ -519,8 +522,6 @@ size_t str_len(String *str)
 {
 	return str->len;
 }
-
-//Status str_compare(String *str1, String *str2, int *result)
 
 bool str_equals(String *str1, String *str2)
 {
