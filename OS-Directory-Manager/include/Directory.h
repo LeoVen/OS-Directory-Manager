@@ -19,7 +19,6 @@ extern "C" {
 
 #include "User.h"
 #include "SString.h"
-#include "StringHandler.h"
 
 	typedef struct Directory
 	{

@@ -64,7 +64,7 @@ extern "C"
 	bool ddar_is_full(DirectoryDynamicArray *ddar);
 
 	bool ddar_exists(DirectoryDynamicArray *ddar, DIRECTORY_T value);
-	bool ddar_find(DirectoryDynamicArray *ddar, String *name, size_t *result);
+	Status ddar_find(DirectoryDynamicArray *ddar, String *name, size_t *result);
 
 	Status ddar_realloc(DirectoryDynamicArray *ddar);
 

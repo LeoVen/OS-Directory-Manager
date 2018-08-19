@@ -19,12 +19,17 @@ extern "C"
 #endif
 
 #include "Core.h"
-#include "Sstring.h"
+#include "User.h"
+#include "UserDynamicArray.h"
+#include "Directory.h"
+#include "DirectoryDynamicArray.h"
 
 	Status shandler_current_time(String **curr_time);
 
 	Status shandler_current_date(String **curr_date);
 	Status shandler_current_hour(String **curr_hour);
+
+	bool shandler_login(UserDynamicArray *users);
 
 
 #ifdef __cplusplus

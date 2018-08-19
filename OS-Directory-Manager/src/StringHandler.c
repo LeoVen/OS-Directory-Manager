@@ -100,3 +100,66 @@ Status shandler_getline(String *string)
 
 	return DS_OK;
 }
+
+bool shandler_login(UserDynamicArray *users)
+{
+	String *name, *password;
+
+	Status st = 0;
+
+	st += str_init(&name);
+	st += str_init(&password);
+
+	if (st != DS_OK)
+		goto error;
+
+	printf("\nUser name : ");
+	st += shandler_getline(name);
+
+	printf("Password  : ");
+	st += shandler_getline(password);
+
+	if (st != DS_OK)
+		goto error;
+
+	size_t i;
+	st = udar_find(users, name, &i);
+
+	if (st != DS_OK)
+	{
+		if (st != DS_ERR_NOT_FOUND)
+			goto error;
+
+		printf("\nUser not found!");
+
+		str_delete(&name);
+		str_delete(&password);
+
+		return false;
+	}
+
+	if (str_equals(users->buffer[i]->password, password))
+	{
+		str_delete(&name);
+		str_delete(&password);
+
+		return true;
+	}
+	else
+	{
+		str_delete(&name);
+		str_delete(&password);
+
+		printf("\nInvalid password");
+
+		return false;
+	}
+
+error:
+	print_status_repr(st);
+
+	str_delete(&name);
+	str_delete(&password);
+
+	return false;
+}

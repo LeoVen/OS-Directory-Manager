@@ -242,7 +242,6 @@ Status ddar_display(DirectoryDynamicArray *ddar)
 		dir_display(ddar->buffer[i]);
 	}
 
-
 	return DS_OK;
 }
 
@@ -265,7 +264,6 @@ Status ddar_display_inline(DirectoryDynamicArray *ddar)
 
 		dir_display_inline(ddar->buffer[i]);
 	}
-
 
 	return DS_OK;
 }
@@ -340,9 +338,32 @@ bool ddar_exists(DirectoryDynamicArray *ddar, DIRECTORY_T value)
 	return false;
 }
 
-bool ddar_find(DirectoryDynamicArray *ddar, String *name, size_t *result)
+Status ddar_find(DirectoryDynamicArray *ddar, String *name, size_t *result)
 {
+	if (ddar == NULL || name == NULL)
+		return DS_ERR_NULL_POINTER;
 
+	*result = 0;
+
+	bool found = false;
+
+	size_t i;
+	for (i = 0; i < ddar->size; i++)
+	{
+		if (str_equals(ddar->buffer[i]->name, name))
+		{
+			*result = i;
+
+			found = true;
+
+			break;
+		}
+	}
+
+	if (found)
+		return DS_OK;
+
+	return DS_ERR_NOT_FOUND;
 }
 
 // +-------------------------------------------------------------------------------------------------+

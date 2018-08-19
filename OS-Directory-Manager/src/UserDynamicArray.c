@@ -340,9 +340,32 @@ bool udar_exists(UserDynamicArray *udar, USER_T value)
 	return false;
 }
 
-bool udar_find(UserDynamicArray *udar, String *name, size_t *result)
+Status udar_find(UserDynamicArray *udar, String *name, size_t *result)
 {
+	if (udar == NULL || name == NULL)
+		return DS_ERR_NULL_POINTER;
 
+	*result = 0;
+
+	bool found = false;
+
+	size_t i;
+	for (i = 0; i < udar->size; i++)
+	{
+		if (str_equals(udar->buffer[i]->name, name))
+		{
+			*result = i;
+
+			found = true;
+
+			break;
+		}
+	}
+
+	if (found)
+		return DS_OK;
+
+	return DS_ERR_NOT_FOUND;
 }
 
 // +-------------------------------------------------------------------------------------------------+
