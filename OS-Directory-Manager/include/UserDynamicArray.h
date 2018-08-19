@@ -1,15 +1,15 @@
 /**
- * @file UserDynamicArray.h
- *
- * @author Leonardo Vencovsky (https://github.com/LeoVen)
- * @author Eduardo Vencovsky  (https://github.com/eduvencovsky)
- * @author Guilherme Pinazza  (https://github.com/pinazza)
- *
- * @date 17/08/2018
- *
- * @brief Header file for @c UserDynamicArray implementations
- *
- */
+* @file UserDynamicArray.h
+*
+* @author Leonardo Vencovsky (https://github.com/LeoVen)
+* @author Eduardo Vencovsky  (https://github.com/eduvencovsky)
+* @author Guilherme Pinazza  (https://github.com/pinazza)
+*
+* @date 17/08/2018
+*
+* @brief Header file for @c UserDynamicArray implementations
+*
+*/
 
 #pragma once
 
@@ -41,32 +41,31 @@ extern "C"
 		size_t growth_rate;
 	} UserDynamicArray;
 
-	Status dar_init(UserDynamicArray **dar);
+	Status udar_init(UserDynamicArray **udar);
 
-	Status dar_get(UserDynamicArray *dar, size_t index, USER_T *result);
+	Status udar_insert_front(UserDynamicArray *udar, USER_T value);
+	Status udar_insert_at(UserDynamicArray *udar, USER_T value, size_t index);
+	Status udar_insert_back(UserDynamicArray *udar, USER_T value);
 
-	Status dar_insert_front(UserDynamicArray *dar, USER_T value);
-	Status dar_insert_at(UserDynamicArray *dar, USER_T value, size_t index);
-	Status dar_insert_back(UserDynamicArray *dar, USER_T value);
+	Status udar_remove_front(UserDynamicArray *udar, USER_T *result);
+	Status udar_remove_at(UserDynamicArray *udar, size_t index, USER_T *result);
+	Status udar_remove_back(UserDynamicArray *udar, USER_T *result);
 
-	Status dar_remove_front(UserDynamicArray *dar, USER_T *result);
-	Status dar_remove_at(UserDynamicArray *dar, size_t index, USER_T *result);
-	Status dar_remove_back(UserDynamicArray *dar, USER_T *result);
+	Status udar_display_inline(UserDynamicArray *udar);
+	Status udar_display(UserDynamicArray *darr);
 
-	Status dar_display(UserDynamicArray *darr);
-	Status dar_display_raw(UserDynamicArray *darr);
+	Status udar_delete(UserDynamicArray **darr);
 
-	Status dar_delete(UserDynamicArray **darr);
+	size_t udar_cap(UserDynamicArray *udar);
+	size_t udar_size(UserDynamicArray *udar);
 
-	size_t dar_cap(UserDynamicArray *dar);
-	size_t dar_size(UserDynamicArray *dar);
+	bool udar_is_empty(UserDynamicArray *udar);
+	bool udar_is_full(UserDynamicArray *udar);
 
-	bool dar_is_empty(UserDynamicArray *dar);
-	bool dar_is_full(UserDynamicArray *dar);
+	bool udar_exists(UserDynamicArray *udar, USER_T value);
+	bool udar_find(UserDynamicArray *udar, String *name, size_t *result);
 
-	bool dar_exists(UserDynamicArray *dar, USER_T value);
-
-	Status dar_realloc(UserDynamicArray *dar);
+	Status udar_realloc(UserDynamicArray *udar);
 
 #ifdef __cplusplus
 }

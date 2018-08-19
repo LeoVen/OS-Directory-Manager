@@ -60,6 +60,10 @@ extern "C" {
 
 	void print_status_repr(Status status);
 
+	int SINGLE_TESTS(void);
+	int USER_ARRAY_TESTS(void);
+	int DIRECTORY_ARRAY_TESTS(void);
+
 #ifdef __cplusplus
 }
 #endif

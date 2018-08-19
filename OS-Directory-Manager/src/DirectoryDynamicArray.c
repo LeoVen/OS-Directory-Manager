@@ -1,38 +1,38 @@
 /**
-* @file UserDynamicArray.c
+* @file DirectoryDynamicArray.c
 *
 * @author Leonardo Vencovsky (https://github.com/LeoVen)
 * @author Eduardo Vencovsky  (https://github.com/eduvencovsky)
 * @author Guilherme Pinazza  (https://github.com/pinazza)
 *
-* @date 17/08/2018
+* @date 18/08/2018
 *
-* @brief Source file for UserDynamicArray
+* @brief Source file for DirectoryDynamicArray
 *
 */
 
-#include "UserDynamicArray.h"
+#include "DirectoryDynamicArray.h"
 
 // +-------------------------------------------------------------------------------------------------+
 // |                                          Initializers                                           |
 // +-------------------------------------------------------------------------------------------------+
 
-Status udar_init(UserDynamicArray **udar)
+Status ddar_init(DirectoryDynamicArray **ddar)
 {
-	(*udar) = malloc(sizeof(UserDynamicArray));
+	(*ddar) = malloc(sizeof(DirectoryDynamicArray));
 
-	if (!(*udar))
+	if (!(*ddar))
 		return DS_ERR_ALLOC;
 
-	(*udar)->buffer = calloc(_DYNAMIC_ARRAY_INIT_SIZE, sizeof(USER_T));
+	(*ddar)->buffer = calloc(_DYNAMIC_ARRAY_INIT_SIZE, sizeof(DIRECTORY_T));
 
-	if (!((*udar)->buffer))
+	if (!((*ddar)->buffer))
 		return DS_ERR_ALLOC;
 
-	(*udar)->capacity = _DYNAMIC_ARRAY_INIT_SIZE;
-	(*udar)->growth_rate = _DYNAMIC_ARRAY_GROW_RATE;
+	(*ddar)->capacity = _DYNAMIC_ARRAY_INIT_SIZE;
+	(*ddar)->growth_rate = _DYNAMIC_ARRAY_GROW_RATE;
 
-	(*udar)->size = 0;
+	(*ddar)->size = 0;
 
 	return DS_OK;
 }
@@ -41,96 +41,96 @@ Status udar_init(UserDynamicArray **udar)
 // |                                            Insertion                                            |
 // +-------------------------------------------------------------------------------------------------+
 
-Status udar_insert_front(UserDynamicArray *udar, USER_T value)
+Status ddar_insert_front(DirectoryDynamicArray *ddar, DIRECTORY_T value)
 {
-	if (udar == NULL)
+	if (ddar == NULL)
 		return DS_ERR_NULL_POINTER;
 
-	if (udar_is_full(udar))
+	if (ddar_is_full(ddar))
 	{
-		Status st = udar_realloc(udar);
+		Status st = ddar_realloc(ddar);
 
 		if (st != DS_OK)
 			return st;
 	}
 
 	size_t i;
-	for (i = udar->size; i > 0; i--)
+	for (i = ddar->size; i > 0; i--)
 	{
-		udar->buffer[i] = udar->buffer[i - 1];
+		ddar->buffer[i] = ddar->buffer[i - 1];
 	}
 
-	udar->buffer[0] = value;
+	ddar->buffer[0] = value;
 
-	(udar->size)++;
+	(ddar->size)++;
 
 	return DS_OK;
 }
 
-Status udar_insert_at(UserDynamicArray *udar, USER_T value, size_t index)
+Status ddar_insert_at(DirectoryDynamicArray *ddar, DIRECTORY_T value, size_t index)
 {
-	if (udar == NULL)
+	if (ddar == NULL)
 		return DS_ERR_NULL_POINTER;
 
-	if (index > udar->size)
+	if (index > ddar->size)
 		return DS_ERR_INVALID_POSITION;
 
 	Status st;
 
 	if (index == 0)
 	{
-		st = udar_insert_front(udar, value);
+		st = ddar_insert_front(ddar, value);
 
 		if (st != DS_OK)
 			return st;
 	}
-	else if (index == udar->size)
+	else if (index == ddar->size)
 	{
-		st = udar_insert_back(udar, value);
+		st = ddar_insert_back(ddar, value);
 
 		if (st != DS_OK)
 			return st;
 	}
 	else
 	{
-		if (udar_is_full(udar))
+		if (ddar_is_full(ddar))
 		{
-			st = udar_realloc(udar);
+			st = ddar_realloc(ddar);
 
 			if (st != DS_OK)
 				return st;
 		}
 
 		size_t i;
-		for (i = udar->size; i > index; i--)
+		for (i = ddar->size; i > index; i--)
 		{
-			udar->buffer[i] = udar->buffer[i - 1];
+			ddar->buffer[i] = ddar->buffer[i - 1];
 		}
 
-		udar->buffer[index] = value;
+		ddar->buffer[index] = value;
 
-		(udar->size)++;
+		(ddar->size)++;
 	}
 
 	return DS_OK;
 }
 
-Status udar_insert_back(UserDynamicArray *udar, USER_T value)
+Status ddar_insert_back(DirectoryDynamicArray *ddar, DIRECTORY_T value)
 {
-	if (udar == NULL)
+	if (ddar == NULL)
 		return DS_ERR_NULL_POINTER;
 
-	if (udar_is_full(udar))
+	if (ddar_is_full(ddar))
 	{
-		Status st = udar_realloc(udar);
+		Status st = ddar_realloc(ddar);
 
 		if (st != DS_OK)
 			return st;
 	}
 
-	udar->buffer[udar->size] = value;
+	ddar->buffer[ddar->size] = value;
 
-	(udar->size)++;
+	(ddar->size)++;
 
 	return DS_OK;
 }
@@ -139,81 +139,81 @@ Status udar_insert_back(UserDynamicArray *udar, USER_T value)
 // |                                             Removal                                             |
 // +-------------------------------------------------------------------------------------------------+
 
-Status udar_remove_front(UserDynamicArray *udar, USER_T *result)
+Status ddar_remove_front(DirectoryDynamicArray *ddar, DIRECTORY_T *result)
 {
-	if (udar == NULL)
+	if (ddar == NULL)
 		return DS_ERR_NULL_POINTER;
 
-	if (udar_is_empty(udar))
+	if (ddar_is_empty(ddar))
 		return DS_ERR_INVALID_OPERATION;
 
-	*result = udar->buffer[0];
+	*result = ddar->buffer[0];
 
 	size_t i;
-	for (i = 0; i < udar->size; i++)
+	for (i = 0; i < ddar->size; i++)
 	{
-		udar->buffer[i] = udar->buffer[i + 1];
+		ddar->buffer[i] = ddar->buffer[i + 1];
 	}
 
-	(udar->size)--;
+	(ddar->size)--;
 
 	return DS_OK;
 }
 
-Status udar_remove_at(UserDynamicArray *udar, size_t index, USER_T *result)
+Status ddar_remove_at(DirectoryDynamicArray *ddar, size_t index, DIRECTORY_T *result)
 {
-	if (udar == NULL)
+	if (ddar == NULL)
 		return DS_ERR_NULL_POINTER;
 
-	if (udar_is_empty(udar))
+	if (ddar_is_empty(ddar))
 		return DS_ERR_INVALID_OPERATION;
 
-	if (index >= udar->size)
+	if (index >= ddar->size)
 		return DS_ERR_INVALID_POSITION;
 
 	Status st;
 
 	if (index == 0)
 	{
-		st = udar_remove_front(udar, result);
+		st = ddar_remove_front(ddar, result);
 
 		if (st != DS_OK)
 			return st;
 	}
-	else if (index == udar->size - 1)
+	else if (index == ddar->size - 1)
 	{
-		st = udar_remove_back(udar, result);
+		st = ddar_remove_back(ddar, result);
 
 		if (st != DS_OK)
 			return st;
 	}
 	else
 	{
-		*result = udar->buffer[index];
+		*result = ddar->buffer[index];
 
 		size_t i;
-		for (i = index; i < udar->size; i++)
+		for (i = index; i < ddar->size; i++)
 		{
-			udar->buffer[i] = udar->buffer[i + 1];
+			ddar->buffer[i] = ddar->buffer[i + 1];
 		}
 
-		(udar->size)--;
+		(ddar->size)--;
 	}
 
 	return DS_OK;
 }
 
-Status udar_remove_back(UserDynamicArray *udar, USER_T *result)
+Status ddar_remove_back(DirectoryDynamicArray *ddar, DIRECTORY_T *result)
 {
-	if (udar == NULL)
+	if (ddar == NULL)
 		return DS_ERR_NULL_POINTER;
 
-	if (udar_is_empty(udar))
+	if (ddar_is_empty(ddar))
 		return DS_ERR_INVALID_OPERATION;
 
-	*result = udar->buffer[udar->size - 1];
+	*result = ddar->buffer[ddar->size - 1];
 
-	(udar->size)--;
+	(ddar->size)--;
 
 	return DS_OK;
 }
@@ -222,12 +222,12 @@ Status udar_remove_back(UserDynamicArray *udar, USER_T *result)
 // |                                             Display                                             |
 // +-------------------------------------------------------------------------------------------------+
 
-Status udar_display(UserDynamicArray *udar)
+Status ddar_display(DirectoryDynamicArray *ddar)
 {
-	if (udar == NULL)
+	if (ddar == NULL)
 		return DS_ERR_NULL_POINTER;
 
-	if (udar->size == 0)
+	if (ddar->size == 0)
 	{
 
 		printf("\n[ Empty ]\n");
@@ -236,22 +236,22 @@ Status udar_display(UserDynamicArray *udar)
 	}
 
 	size_t i;
-	for (i = 0; i < udar->size; i++)
+	for (i = 0; i < ddar->size; i++)
 	{
 
-		usr_display(udar->buffer[i]);
+		dir_display(ddar->buffer[i]);
 	}
 
 
 	return DS_OK;
 }
 
-Status udar_display_inline(UserDynamicArray *udar)
+Status ddar_display_inline(DirectoryDynamicArray *ddar)
 {
-	if (udar == NULL)
+	if (ddar == NULL)
 		return DS_ERR_NULL_POINTER;
 
-	if (udar->size == 0)
+	if (ddar->size == 0)
 	{
 
 		printf("\n[ Empty ]\n");
@@ -260,10 +260,10 @@ Status udar_display_inline(UserDynamicArray *udar)
 	}
 
 	size_t i;
-	for (i = 0; i < udar->size; i++)
+	for (i = 0; i < ddar->size; i++)
 	{
 
-		usr_display_inline(udar->buffer[i]);
+		dir_display_inline(ddar->buffer[i]);
 	}
 
 
@@ -274,26 +274,26 @@ Status udar_display_inline(UserDynamicArray *udar)
 // |                                             Resets                                              |
 // +-------------------------------------------------------------------------------------------------+
 
-Status udar_delete(UserDynamicArray **udar)
+Status ddar_delete(DirectoryDynamicArray **ddar)
 {
-	if (*udar == NULL)
+	if (*ddar == NULL)
 		return DS_ERR_NULL_POINTER;
 
 	Status st;
 
 	size_t i;
-	for (i = 0; i < (*udar)->size; i++)
+	for (i = 0; i < (*ddar)->size; i++)
 	{
-		st = usr_delete(&((*udar)->buffer[i]));
+		st = dir_delete(&((*ddar)->buffer[i]));
 
 		if (st != DS_OK)
 			return st;
 	}
 
-	free((*udar)->buffer);
-	free((*udar));
+	free((*ddar)->buffer);
+	free((*ddar));
 
-	(*udar) = NULL;
+	(*ddar) = NULL;
 
 	return DS_OK;
 }
@@ -302,45 +302,45 @@ Status udar_delete(UserDynamicArray **udar)
 // |                                             Search                                              |
 // +-------------------------------------------------------------------------------------------------+
 
-size_t udar_cap(UserDynamicArray *udar)
+size_t ddar_cap(DirectoryDynamicArray *ddar)
 {
-	return udar->capacity;
+	return ddar->capacity;
 }
 
-size_t udar_size(UserDynamicArray *udar)
+size_t ddar_size(DirectoryDynamicArray *ddar)
 {
-	return udar->size;
+	return ddar->size;
 }
 
-bool udar_is_empty(UserDynamicArray *udar)
+bool ddar_is_empty(DirectoryDynamicArray *ddar)
 {
-	return udar->size == 0;
+	return ddar->size == 0;
 }
 
-bool udar_is_full(UserDynamicArray *udar)
+bool ddar_is_full(DirectoryDynamicArray *ddar)
 {
-	return udar->size == udar->capacity;
+	return ddar->size == ddar->capacity;
 }
 
-bool udar_exists(UserDynamicArray *udar, USER_T value)
+bool ddar_exists(DirectoryDynamicArray *ddar, DIRECTORY_T value)
 {
-	if (udar == NULL)
+	if (ddar == NULL)
 		return false;
 
-	if (udar_is_empty(udar))
+	if (ddar_is_empty(ddar))
 		return false;
 
 	size_t i;
-	for (i = 0; i < udar->size; i++)
+	for (i = 0; i < ddar->size; i++)
 	{
-		if (str_equals(value->name, udar->buffer[i]->name))
+		if (str_equals(value->name, ddar->buffer[i]->name))
 			return true;
 	}
 
 	return false;
 }
 
-bool udar_find(UserDynamicArray *udar, String *name, size_t *result)
+bool ddar_find(DirectoryDynamicArray *ddar, String *name, size_t *result)
 {
 
 }
@@ -349,23 +349,23 @@ bool udar_find(UserDynamicArray *udar, String *name, size_t *result)
 // |                                            Buffer                                               |
 // +-------------------------------------------------------------------------------------------------+
 
-Status udar_realloc(UserDynamicArray *udar)
+Status ddar_realloc(DirectoryDynamicArray *ddar)
 {
-	if (udar == NULL)
+	if (ddar == NULL)
 		return DS_ERR_NULL_POINTER;
 
-	udar->capacity *= udar->growth_rate;
+	ddar->capacity *= ddar->growth_rate;
 
-	USER_T *new_buffer = realloc(udar->buffer, sizeof(USER_T) * udar->capacity);
+	DIRECTORY_T *new_buffer = realloc(ddar->buffer, sizeof(DIRECTORY_T) * ddar->capacity);
 
 	if (!new_buffer)
 	{
-		udar->capacity /= udar->growth_rate;
+		ddar->capacity /= ddar->growth_rate;
 
 		return DS_ERR_ALLOC;
 	}
 
-	udar->buffer = new_buffer;
+	ddar->buffer = new_buffer;
 
 	return DS_OK;
 }

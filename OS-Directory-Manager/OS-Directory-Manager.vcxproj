@@ -150,14 +150,20 @@
   <ItemGroup>
     <ClCompile Include="OS-Directory-Manager.c" />
     <ClCompile Include="src\Core.c" />
+    <ClCompile Include="src\Directory.c" />
+    <ClCompile Include="src\DirectoryDynamicArray.c" />
     <ClCompile Include="src\SString.c" />
+    <ClCompile Include="src\StringHandler.c" />
+    <ClCompile Include="src\Tests.c" />
     <ClCompile Include="src\User.c" />
     <ClCompile Include="src\UserDynamicArray.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Core.h" />
     <ClInclude Include="include\Directory.h" />
+    <ClInclude Include="include\DirectoryDynamicArray.h" />
     <ClInclude Include="include\SString.h" />
+    <ClInclude Include="include\StringHandler.h" />
     <ClInclude Include="include\User.h" />
     <ClInclude Include="include\UserDynamicArray.h" />
   </ItemGroup>
