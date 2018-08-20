@@ -56,7 +56,17 @@ Status dir_display(Directory *dir)
 
 Status dir_display_inline(Directory *dir)
 {
+	if (dir == NULL)
+		return DS_ERR_NULL_POINTER;
 
+	printf("\n ---------- Directory ---------- \n");
+	printf("\n Name      : %s", dir->name->buffer);
+	printf("\n Parent    : %s", (dir->parent == NULL) ? " " : dir->parent->name->buffer);
+	printf("\n Owner     : %s", dir->owner->name->buffer);
+	printf("\n Time      : %s", dir->time->buffer);
+	printf("\n ------------------------------- \n");
+
+	return DS_OK;
 }
 
 Status dir_delete(Directory **dir)

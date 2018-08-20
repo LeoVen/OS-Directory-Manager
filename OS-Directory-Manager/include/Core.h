@@ -29,10 +29,12 @@ extern "C" {
 #include <time.h>
 #include <ctype.h>
 #include <conio.h>
+#include <Windows.h>
 
+#define MACHINE_NAME "slax"
 
-#define CLEAR_SCREEN "cls"
-//#define CLEAR_SCREEN "clear"
+#define CLEAR_SCREEN system("cls")
+//#define CLEAR_SCREEN system("clear")
 
 	/**
 	 * @brief Status code returned by functions
@@ -60,9 +62,13 @@ extern "C" {
 
 	void print_status_repr(Status status);
 
+	// Tests.c
 	int SINGLE_TESTS(void);
 	int USER_ARRAY_TESTS(void);
 	int DIRECTORY_ARRAY_TESTS(void);
+
+	// Others.c
+	void final_shutdown(void);
 
 #ifdef __cplusplus
 }

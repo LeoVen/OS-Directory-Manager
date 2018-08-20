@@ -1,15 +1,15 @@
 /**
-* @file UserDynamicArray.c
-*
-* @author Leonardo Vencovsky (https://github.com/LeoVen)
-* @author Eduardo Vencovsky  (https://github.com/eduvencovsky)
-* @author Guilherme Pinazza  (https://github.com/pinazza)
-*
-* @date 17/08/2018
-*
-* @brief Source file for UserDynamicArray
-*
-*/
+ * @file UserDynamicArray.c
+ * 
+ * @author Leonardo Vencovsky (https://github.com/LeoVen)
+ * @author Eduardo Vencovsky  (https://github.com/eduvencovsky)
+ * @author Guilherme Pinazza  (https://github.com/pinazza)
+ *
+ * @date 17/08/2018
+ *
+ * @brief Source file for UserDynamicArray
+ *
+ */
 
 #include "UserDynamicArray.h"
 

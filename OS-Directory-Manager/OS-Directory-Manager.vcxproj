@@ -155,6 +155,7 @@
     <ClCompile Include="src\SString.c" />
     <ClCompile Include="src\StringHandler.c" />
     <ClCompile Include="src\Tests.c" />
+    <ClCompile Include="src\Ohters.c" />
     <ClCompile Include="src\User.c" />
     <ClCompile Include="src\UserDynamicArray.c" />
   </ItemGroup>

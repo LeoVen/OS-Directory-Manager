@@ -7,11 +7,34 @@
  *
  * @date 18/08/2018
  *
- * @brief Source file for String Hanlders
+ * @brief Source file for Handling Strings
  *
  */
 
 #include "StringHandler.h"
+
+
+Status shandler_getline(String *string)
+{
+	char c = ' ';
+
+	Status st;
+
+	while (c != '\n')
+	{
+		c = getchar();
+
+		if (c != '\n')
+		{
+			st = str_push_char_back(string, c);
+
+			if (st != DS_OK)
+				return st;
+		}
+	}
+
+	return DS_OK;
+}
 
 Status shandler_current_time(String **curr_time)
 {
@@ -79,30 +102,10 @@ Status shandler_current_hour(String **curr_hour)
 	return DS_OK;
 }
 
-Status shandler_getline(String *string)
+bool shandler_login(UserDynamicArray *users, User **curr_user)
 {
-	char c = ' ';
+	CLEAR_SCREEN;
 
-	Status st;
-
-	while (c != '\n')
-	{
-		c = getchar();
-
-		if (c != '\n')
-		{
-			st = str_push_char_back(string, c);
-
-			if (st != DS_OK)
-				return st;
-		}
-	}
-
-	return DS_OK;
-}
-
-bool shandler_login(UserDynamicArray *users)
-{
 	String *name, *password;
 
 	Status st = 0;
@@ -113,11 +116,20 @@ bool shandler_login(UserDynamicArray *users)
 	if (st != DS_OK)
 		goto error;
 
-	printf("\nUser name : ");
-	st += shandler_getline(name);
+	char c;
 
-	printf("Password  : ");
+	printf("+--------------------------------------------------------------------------------+\n");
+	printf("|                                                                                |\n");
+	printf("|                                Directory Manager                               |\n");
+	printf("|                                                                                |\n");
+	printf("+--------------------------------------------------------------------------------+\n");
+	printf("\n");
+	printf("\tUser name : ");
+	st += shandler_getline(name);
+	printf("\n");
+	printf("\tPassword  : ");
 	st += shandler_getline(password);
+	printf("\n");
 
 	if (st != DS_OK)
 		goto error;
@@ -130,7 +142,9 @@ bool shandler_login(UserDynamicArray *users)
 		if (st != DS_ERR_NOT_FOUND)
 			goto error;
 
-		printf("\nUser not found!");
+		printf("\nInvalid user or password...");
+
+		c = getchar();
 
 		str_delete(&name);
 		str_delete(&password);
@@ -140,6 +154,8 @@ bool shandler_login(UserDynamicArray *users)
 
 	if (str_equals(users->buffer[i]->password, password))
 	{
+		*curr_user = users->buffer[i];
+
 		str_delete(&name);
 		str_delete(&password);
 
@@ -150,7 +166,9 @@ bool shandler_login(UserDynamicArray *users)
 		str_delete(&name);
 		str_delete(&password);
 
-		printf("\nInvalid password");
+		printf("\nInvalid user or password...");
+
+		c = getchar();
 
 		return false;
 	}
@@ -162,4 +180,79 @@ error:
 	str_delete(&password);
 
 	return false;
+}
+
+Status shandler_make_prompt(User *curr_user, Directory *curr_dir, String *result)
+{
+	if (curr_user == NULL || curr_dir == NULL || result == NULL)
+		return DS_ERR_NULL_POINTER;
+
+	// Erasing string
+	result->len = 0;
+	result->buffer[0] = '\n';
+
+	String *m_name, *c_dir, *root_dir_name;
+
+	Status st = str_make(&m_name, MACHINE_NAME);
+
+	if (st != DS_OK)
+		return st;
+
+	st = str_init(&c_dir);
+
+	if (st != DS_OK)
+		return st;
+
+	st += str_append(result, curr_user->name);
+
+	st += str_push_char_back(result, '@');
+	
+	st += str_append(result, m_name);
+
+	st += str_push_char_back(result, ':');
+
+	if (st != DS_OK)
+		return st;
+
+	// Find root path
+
+	Directory *scan = curr_dir;
+
+	// Don't append if current dir is / (root)
+	st = str_make(&root_dir_name, "/");
+
+	if (st != DS_OK)
+		return st;
+
+	// While scan hasn't reached root folder
+	while (scan != NULL)
+	{
+		if (!str_equals(scan->name, root_dir_name))
+			st += str_append(c_dir, scan->name);
+
+		st += str_push_char_front(c_dir, '/');
+
+		if (st != DS_OK)
+			return st;
+
+		scan = scan->parent;
+	}
+
+	st = str_append(result, c_dir);
+
+	if (st != DS_OK)
+		return st;
+
+	char c = (curr_user->root) ? '#' : '$';
+
+	st = str_push_char_back(result, c);
+
+	if (st != DS_OK)
+		return st;
+
+	str_delete(&root_dir_name);
+	str_delete(&m_name);
+	str_delete(&c_dir);
+
+	return DS_OK;
 }

@@ -1,15 +1,15 @@
 /**
-* @file DirectoryDynamicArray.c
-*
-* @author Leonardo Vencovsky (https://github.com/LeoVen)
-* @author Eduardo Vencovsky  (https://github.com/eduvencovsky)
-* @author Guilherme Pinazza  (https://github.com/pinazza)
-*
-* @date 18/08/2018
-*
-* @brief Source file for DirectoryDynamicArray
-*
-*/
+ * @file DirectoryDynamicArray.c
+ *
+ * @author Leonardo Vencovsky (https://github.com/LeoVen)
+ * @author Eduardo Vencovsky  (https://github.com/eduvencovsky)
+ * @author Guilherme Pinazza  (https://github.com/pinazza)
+ *
+ * @date 18/08/2018
+ *
+ * @brief Source file for DirectoryDynamicArray
+ *
+ */
 
 #include "DirectoryDynamicArray.h"
 

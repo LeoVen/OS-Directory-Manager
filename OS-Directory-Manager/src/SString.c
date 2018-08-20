@@ -233,12 +233,6 @@ Status str_push_char_back(String *str, const char ch)
 	return DS_OK;
 }
 
-//Status str_push_front(String *str, const char *ch)
-
-//Status str_push_at(String *str, const char *ch, size_t index)
-
-//Status str_push_back(String *str, const char *ch)
-
 Status str_prepend(String *str1, String *str2)
 {
 	if (str1 == NULL || str2 == NULL)
@@ -391,10 +385,6 @@ Status str_pop_char_back(String *str)
 	return DS_OK;
 }
 
-//Status str_remove(String *str, size_t from, size_t to)
-
-//Status str_slice(String *str, size_t from, size_t to, const char *result)
-
 // +-------------------------------------------------------------------------------------------------+
 // |                                             Display                                             |
 // +-------------------------------------------------------------------------------------------------+
@@ -539,12 +529,24 @@ bool str_equals(String *str1, String *str2)
 	return true;
 }
 
-// +-------------------------------------------------------------------------------------------------+
-// |                                             Copy                                                |
-// +-------------------------------------------------------------------------------------------------+
+// Exclusive use
+bool str_iscmd(String *str, const char *cmd)
+{
+	if (str == NULL || cmd == NULL)
+		return false;
 
-//Status str_copy(String *str, String **result)
-//Status str_swap(String *str1, String *str2)
+	size_t len = strlen(cmd);
+
+	if (str->len != len)
+		return false;
+
+	size_t i;
+	for (i = 0; i < len; i++)
+		if (str->buffer[i] != cmd[i])
+			return false;
+
+	return true;
+}
 
 // +-------------------------------------------------------------------------------------------------+
 // |                                            Buffer                                               |

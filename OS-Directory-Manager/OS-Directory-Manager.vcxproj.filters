@@ -42,6 +42,9 @@
     <ClCompile Include="src\Tests.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Ohters.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Core.h">

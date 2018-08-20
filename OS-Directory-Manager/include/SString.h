@@ -83,6 +83,7 @@ extern "C"
 	size_t str_len(String *str);
 
 	bool str_equals(String *str1, String *str2);
+	bool str_iscmd(String *str, const char *cmd); // Exclusive use
 
 	bool str_buffer_full(String *str);
 	bool str_buffer_empty(String *str);
