@@ -69,6 +69,7 @@ extern "C" {
 
 	// Others.c
 	void final_shutdown(void);
+	void help(void);
 
 #ifdef __cplusplus
 }

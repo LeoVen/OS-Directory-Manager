@@ -32,8 +32,8 @@ extern "C"
 	Status shandler_current_hour(String **curr_hour);
 
 	bool shandler_login(UserDynamicArray *users, User **curr_user);
-
 	Status shandler_make_prompt(User *curr_user, Directory *curr_dir, String *result);
+	Status shandler_parse_input(String *input, String *cmd1, String *cmd2);
 
 
 #ifdef __cplusplus

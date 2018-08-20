@@ -251,13 +251,7 @@ Status udar_display_inline(UserDynamicArray *udar)
 	if (udar == NULL)
 		return DS_ERR_NULL_POINTER;
 
-	if (udar->size == 0)
-	{
-
-		printf("\n[ Empty ]\n");
-
-		return DS_OK;
-	}
+	printf("\n%-10s\t%-20s\t%-20s\t%s\t%s", "Name", "Full Name", "Password", "Root", "Locked\n\n");
 
 	size_t i;
 	for (i = 0; i < udar->size; i++)
@@ -334,6 +328,25 @@ bool udar_exists(UserDynamicArray *udar, USER_T value)
 	for (i = 0; i < udar->size; i++)
 	{
 		if (str_equals(value->name, udar->buffer[i]->name))
+			return true;
+	}
+
+	return false;
+}
+
+// Exclusive use
+bool udar_contains(UserDynamicArray *udar, String *name)
+{
+	if (udar == NULL)
+		return false;
+
+	if (udar_is_empty(udar))
+		return false;
+
+	size_t i;
+	for (i = 0; i < udar->size; i++)
+	{
+		if (str_equals(name, udar->buffer[i]->name))
 			return true;
 	}
 

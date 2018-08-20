@@ -26,6 +26,7 @@
 * date (shows date)
 * time (shows time)
 * copyright (shows team's copyright)
+* echo (prints parameter)
 
 ## Functioning
 

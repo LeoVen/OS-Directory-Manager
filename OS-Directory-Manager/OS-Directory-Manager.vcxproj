@@ -168,6 +168,9 @@
     <ClInclude Include="include\User.h" />
     <ClInclude Include="include\UserDynamicArray.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\README.md" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

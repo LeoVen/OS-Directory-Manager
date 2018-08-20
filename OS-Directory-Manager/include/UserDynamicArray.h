@@ -63,6 +63,7 @@ extern "C"
 	bool udar_is_full(UserDynamicArray *udar);
 
 	bool udar_exists(UserDynamicArray *udar, USER_T value);
+	bool udar_contains(UserDynamicArray *udar, String *name);
 	Status udar_find(UserDynamicArray *udar, String *name, size_t *result);
 
 	Status udar_realloc(UserDynamicArray *udar);

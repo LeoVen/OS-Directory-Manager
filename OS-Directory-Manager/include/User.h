@@ -33,9 +33,13 @@ extern "C" {
 	Status usr_make(User **usr, String *name, String *full_name, String *password, size_t id);
 
 	Status usr_display(User *usr);
+	Status usr_display_noroot(User *usr);
 	Status usr_display_inline(User *usr);
 
 	Status usr_delete(User **usr);
+
+	// User inputs
+	Status usr_input(User **result, String *user_name, size_t *global_id);
 
 #ifdef __cplusplus
 }

@@ -142,7 +142,19 @@ bool shandler_login(UserDynamicArray *users, User **curr_user)
 		if (st != DS_ERR_NOT_FOUND)
 			goto error;
 
-		printf("\nInvalid user or password...");
+		printf("Invalid user or password...");
+
+		c = getchar();
+
+		str_delete(&name);
+		str_delete(&password);
+
+		return false;
+	}
+
+	if (users->buffer[i]->locked)
+	{
+		printf("User locked...");
 
 		c = getchar();
 
@@ -166,7 +178,7 @@ bool shandler_login(UserDynamicArray *users, User **curr_user)
 		str_delete(&name);
 		str_delete(&password);
 
-		printf("\nInvalid user or password...");
+		printf("Invalid user or password...");
 
 		c = getchar();
 
@@ -186,10 +198,6 @@ Status shandler_make_prompt(User *curr_user, Directory *curr_dir, String *result
 {
 	if (curr_user == NULL || curr_dir == NULL || result == NULL)
 		return DS_ERR_NULL_POINTER;
-
-	// Erasing string
-	result->len = 0;
-	result->buffer[0] = '\n';
 
 	String *m_name, *c_dir, *root_dir_name;
 
@@ -253,6 +261,42 @@ Status shandler_make_prompt(User *curr_user, Directory *curr_dir, String *result
 	str_delete(&root_dir_name);
 	str_delete(&m_name);
 	str_delete(&c_dir);
+
+	return DS_OK;
+}
+
+Status shandler_parse_input(String *input, String *cmd1, String *cmd2)
+{
+	char c = 'A';
+	Status st;
+	bool param = false;
+
+	size_t i;
+	for (i = 0; i < input->len; i++)
+	{
+		c = input->buffer[i];
+
+		if (c == ' ' && !param)
+		{
+			param = true;
+
+			continue;
+		}
+
+		if (!param)
+		{
+			if (c != ' ' || c != '\n')
+				st = str_push_char_back(cmd1, c);
+		}
+		else
+		{
+			if (c != '\n')
+				st = str_push_char_back(cmd2, c);
+		}
+
+		if (st != DS_OK)
+			return st;
+	}
 
 	return DS_OK;
 }

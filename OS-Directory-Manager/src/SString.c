@@ -530,7 +530,7 @@ bool str_equals(String *str1, String *str2)
 }
 
 // Exclusive use
-bool str_iscmd(String *str, const char *cmd)
+bool str_eqstr(String *str, const char *cmd)
 {
 	if (str == NULL || cmd == NULL)
 		return false;
