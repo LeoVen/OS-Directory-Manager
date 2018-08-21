@@ -251,7 +251,7 @@ Status udar_display_inline(UserDynamicArray *udar)
 	if (udar == NULL)
 		return DS_ERR_NULL_POINTER;
 
-	printf("\n%-10s\t%-20s\t%-20s\t%s\t%s", "Name", "Full Name", "Password", "Root", "Locked\n\n");
+	printf("\n%-5s\t%-10s\t%-20s\t%-20s\t%s\t%s", "ID", "Name", "Full Name", "Password", "Root", "Locked\n\n");
 
 	size_t i;
 	for (i = 0; i < udar->size; i++)

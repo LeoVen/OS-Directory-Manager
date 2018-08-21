@@ -102,7 +102,7 @@ Status shandler_current_hour(String **curr_hour)
 	return DS_OK;
 }
 
-bool shandler_login(UserDynamicArray *users, User **curr_user)
+bool shandler_login(DirectoryDynamicArray *dirs, UserDynamicArray *users, User **curr_user, Directory **curr_dir)
 {
 	CLEAR_SCREEN;
 
@@ -168,6 +168,39 @@ bool shandler_login(UserDynamicArray *users, User **curr_user)
 	{
 		*curr_user = users->buffer[i];
 
+		size_t index;
+
+		// Redirect user to its home directory
+		if ((*curr_user)->root)
+		{
+			// Find /
+			String *root_name;
+
+			st = str_make(&root_name, "/");
+
+			if (st != DS_OK)
+				return st;
+
+			st = ddar_find(dirs, root_name, &index);
+
+			if (st != DS_OK)
+				return st;
+
+			*curr_dir = dirs->buffer[index];
+
+			str_delete(&root_name);
+		}
+		else
+		{
+			// Find directory with same name as user name
+			st = ddar_find(dirs, (*curr_user)->name, &index);
+
+			if (st != DS_OK)
+				return st;
+
+			*curr_dir = dirs->buffer[index];
+		}
+
 		str_delete(&name);
 		str_delete(&password);
 
@@ -199,7 +232,7 @@ Status shandler_make_prompt(User *curr_user, Directory *curr_dir, String *result
 	if (curr_user == NULL || curr_dir == NULL || result == NULL)
 		return DS_ERR_NULL_POINTER;
 
-	String *m_name, *c_dir, *root_dir_name;
+	String *m_name, *c_dir, *root_dir_name, *home;
 
 	Status st = str_make(&m_name, MACHINE_NAME);
 
@@ -207,6 +240,11 @@ Status shandler_make_prompt(User *curr_user, Directory *curr_dir, String *result
 		return st;
 
 	st = str_init(&c_dir);
+
+	if (st != DS_OK)
+		return st;
+
+	st = str_make(&home, "home");
 
 	if (st != DS_OK)
 		return st;
@@ -232,10 +270,19 @@ Status shandler_make_prompt(User *curr_user, Directory *curr_dir, String *result
 	if (st != DS_OK)
 		return st;
 
+	bool is_home = false;
+
 	// While scan hasn't reached root folder
 	while (scan != NULL)
 	{
-		if (!str_equals(scan->name, root_dir_name))
+		if (str_equals(scan->name, curr_user->name))
+		{
+			// Home directory
+			st += str_append(c_dir, home);
+
+			is_home = true;
+		}
+		else if (scan->parent != NULL)
 			st += str_append(c_dir, scan->name);
 
 		st += str_push_char_front(c_dir, '/');
@@ -244,6 +291,9 @@ Status shandler_make_prompt(User *curr_user, Directory *curr_dir, String *result
 			return st;
 
 		scan = scan->parent;
+
+		if (is_home)
+			break;
 	}
 
 	st = str_append(result, c_dir);
@@ -261,6 +311,7 @@ Status shandler_make_prompt(User *curr_user, Directory *curr_dir, String *result
 	str_delete(&root_dir_name);
 	str_delete(&m_name);
 	str_delete(&c_dir);
+	str_delete(&home);
 
 	return DS_OK;
 }
@@ -268,7 +319,7 @@ Status shandler_make_prompt(User *curr_user, Directory *curr_dir, String *result
 Status shandler_parse_input(String *input, String *cmd1, String *cmd2)
 {
 	char c = 'A';
-	Status st;
+	Status st = 0;
 	bool param = false;
 
 	size_t i;
@@ -285,7 +336,7 @@ Status shandler_parse_input(String *input, String *cmd1, String *cmd2)
 
 		if (!param)
 		{
-			if (c != ' ' || c != '\n')
+			if (c != ' ' && c != '\n')
 				st = str_push_char_back(cmd1, c);
 		}
 		else

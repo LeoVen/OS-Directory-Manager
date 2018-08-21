@@ -70,6 +70,7 @@ extern "C" {
 	// Others.c
 	void final_shutdown(void);
 	void help(void);
+	void copyright(void);
 
 #ifdef __cplusplus
 }

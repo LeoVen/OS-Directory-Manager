@@ -36,8 +36,6 @@ extern "C" {
 
 	Status dir_delete(Directory **dir);
 
-
-
 #ifdef __cplusplus
 }
 #endif

@@ -122,12 +122,13 @@ void help(void)
 	printf("\n");
 	printf(" User-related functions\n");
 	printf(" ----------------------\n");
-	printf("     adduser [user_name]       Adds a new user                     (root only)\n");
-	printf("     deluser [user_name]       Deletes existing user               (root only)\n");
-	printf("        lock [user_name]       Locks user                          (root only)\n");
-	printf("      unlock [user_name]       Unlocks user                        (root only)\n");
-	printf("          id [user_name]       Shows info about user               (root only)\n");
-	printf("    listuser                   Lists users                         (root only)\n");
+	printf("     adduser [user_name]        Adds a new user                     (root only)\n");
+	printf("     deluser [user_name]        Deletes existing user               (root only)\n");
+	printf("        lock [user_name]        Locks user                          (root only)\n");
+	printf("      unlock [user_name]        Unlocks user                        (root only)\n");
+	printf("          id [user_name]        Shows info about user               (root only)\n");
+	printf("    listuser                    Lists users                         (root only)\n");
+	printf("      whoami                    Prints current user name\n");
 	printf("\n");
 	printf(" Directory-related functions\n");
 	printf(" ---------------------------\n");
@@ -142,10 +143,23 @@ void help(void)
 	printf(" Miscellaneous\n");
 	printf(" -------------\n");
 	printf("        help                    Shows this help menu\n");
-	printf("      whoami                    Prints current user name\n");
 	printf("       clear                    Clear screen\n");
 	printf("        echo                    Prints text\n");
 	printf("   copyright                    Copyright\n");
 
+	printf("\n");
+}
+
+void copyright(void)
+{
+	printf("+--------------------------------------------------------------------------------+\n");
+	printf("|                                                                                |\n");
+	printf("|                                     Made By                                    |\n");
+	printf("|                                                                                |\n");
+	printf("+--------------------------------------------------------------------------------+\n");
+	printf("\n");
+	printf(" Eduardo Vencovsky   201710281  https://github.com/eduvencovsky \n");
+	printf(" Guilherme Pinazza   201710351  https://github.com/pinazza \n");
+	printf(" Leonardo Vencovsky  201710276  https://github.com/LeoVen \n");
 	printf("\n");
 }

@@ -39,6 +39,7 @@ Status usr_display(User *usr)
 		return DS_ERR_NULL_POINTER;
 
 	printf("\n ---------- User ---------- \n");
+	printf("\n Id        : %zu", usr->id);
 	printf("\n Name      : %s", usr->name->buffer);
 	printf("\n Full Name : %s", usr->full_name->buffer);
 	printf("\n Password  : %s", usr->password->buffer);
@@ -54,7 +55,7 @@ Status usr_display_inline(User *usr)
 	if (usr == NULL)
 		return DS_ERR_NULL_POINTER;
 
-	printf("%-10s\t%-20s\t%-20s\t%s\t%s\n", usr->name->buffer, usr->full_name->buffer,
+	printf("%-5zu\t%-10s\t%-20s\t%-20s\t%s\t%s\n", usr->id, usr->name->buffer, usr->full_name->buffer,
 		usr->password->buffer, (usr->root) ? "yes" : "no", (usr->locked) ? "yes" : "no");
 
 	return DS_OK;
@@ -67,6 +68,7 @@ Status usr_display_noroot(User *usr)
 		return DS_ERR_NULL_POINTER;
 
 	printf("\n ---------- User ---------- \n");
+	printf("\n Id        : %zu", usr->id);
 	printf("\n Name      : %s", usr->name->buffer);
 	printf("\n Full Name : %s", usr->full_name->buffer);
 	printf("\n Is root   : %s", (usr->root) ? "yes" : "no");
@@ -92,6 +94,7 @@ Status usr_delete(User **usr)
 	return DS_OK;
 }
 
+// Exclusive use
 Status usr_input(User **result, String *user_name, size_t *global_id)
 {
 	String *name, *full_name, *password;

@@ -12,6 +12,7 @@
  */
 
 #include "Directory.h"
+#include "StringHandler.h"
 
 Status dir_make(Directory **dir, Directory *parent, User *usr, String *name)
 {
@@ -59,12 +60,8 @@ Status dir_display_inline(Directory *dir)
 	if (dir == NULL)
 		return DS_ERR_NULL_POINTER;
 
-	printf("\n ---------- Directory ---------- \n");
-	printf("\n Name      : %s", dir->name->buffer);
-	printf("\n Parent    : %s", (dir->parent == NULL) ? " " : dir->parent->name->buffer);
-	printf("\n Owner     : %s", dir->owner->name->buffer);
-	printf("\n Time      : %s", dir->time->buffer);
-	printf("\n ------------------------------- \n");
+	printf("%-20s\t%-20s\t%-20s\t%-20s\n", dir->name->buffer, (dir->parent == NULL) ? " " : dir->parent->name->buffer,
+		(str_eqstr(dir->owner->name->buffer, "/")) ? "root" : dir->owner->name->buffer, dir->time->buffer);
 
 	return DS_OK;
 }
@@ -74,7 +71,7 @@ Status dir_delete(Directory **dir)
 	if ((*dir) == NULL)
 		return DS_ERR_NULL_POINTER;
 
-	Status st = ddar_delete(&((*dir)->children));
+	Status st = ddar_delete_shallow(&((*dir)->children));
 
 	if (st != DS_OK)
 		return st;

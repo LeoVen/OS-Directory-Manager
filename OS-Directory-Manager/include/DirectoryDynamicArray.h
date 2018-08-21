@@ -52,10 +52,11 @@ extern "C"
 	Status ddar_remove_at(DirectoryDynamicArray *ddar, size_t index, DIRECTORY_T *result);
 	Status ddar_remove_back(DirectoryDynamicArray *ddar, DIRECTORY_T *result);
 
-	Status ddar_display_inline(DirectoryDynamicArray *ddar);
 	Status ddar_display(DirectoryDynamicArray *ddar);
+	Status ddar_display_inline(DirectoryDynamicArray *ddar);
 
 	Status ddar_delete(DirectoryDynamicArray **ddar);
+	Status ddar_delete_shallow(DirectoryDynamicArray **ddar);
 
 	size_t ddar_cap(DirectoryDynamicArray *ddar);
 	size_t ddar_size(DirectoryDynamicArray *ddar);
@@ -64,9 +65,12 @@ extern "C"
 	bool ddar_is_full(DirectoryDynamicArray *ddar);
 
 	bool ddar_exists(DirectoryDynamicArray *ddar, DIRECTORY_T value);
+	bool ddar_contains(DirectoryDynamicArray *ddar, String *name);
 	Status ddar_find(DirectoryDynamicArray *ddar, String *name, size_t *result);
 
 	Status ddar_realloc(DirectoryDynamicArray *ddar);
+
+	Status dir_input(DirectoryDynamicArray *global_list, Directory **result, Directory *parent, String *name, User *owner);
 
 #ifdef __cplusplus
 }

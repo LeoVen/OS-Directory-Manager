@@ -227,14 +227,6 @@ Status ddar_display(DirectoryDynamicArray *ddar)
 	if (ddar == NULL)
 		return DS_ERR_NULL_POINTER;
 
-	if (ddar->size == 0)
-	{
-
-		printf("\n[ Empty ]\n");
-
-		return DS_OK;
-	}
-
 	size_t i;
 	for (i = 0; i < ddar->size; i++)
 	{
@@ -250,13 +242,7 @@ Status ddar_display_inline(DirectoryDynamicArray *ddar)
 	if (ddar == NULL)
 		return DS_ERR_NULL_POINTER;
 
-	if (ddar->size == 0)
-	{
-
-		printf("\n[ Empty ]\n");
-
-		return DS_OK;
-	}
+	printf("%-20s\t%-20s\t%-20s\t%-20s\n", "Name", "Parent", "Owner", "Time");
 
 	size_t i;
 	for (i = 0; i < ddar->size; i++)
@@ -287,6 +273,19 @@ Status ddar_delete(DirectoryDynamicArray **ddar)
 		if (st != DS_OK)
 			return st;
 	}
+
+	free((*ddar)->buffer);
+	free((*ddar));
+
+	(*ddar) = NULL;
+
+	return DS_OK;
+}
+
+Status ddar_delete_shallow(DirectoryDynamicArray **ddar)
+{
+	if (*ddar == NULL)
+		return DS_ERR_NULL_POINTER;
 
 	free((*ddar)->buffer);
 	free((*ddar));
@@ -332,6 +331,25 @@ bool ddar_exists(DirectoryDynamicArray *ddar, DIRECTORY_T value)
 	for (i = 0; i < ddar->size; i++)
 	{
 		if (str_equals(value->name, ddar->buffer[i]->name))
+			return true;
+	}
+
+	return false;
+}
+
+// Exclusive use
+bool ddar_contains(DirectoryDynamicArray *ddar, String *name)
+{
+	if (ddar == NULL)
+		return false;
+
+	if (ddar_is_empty(ddar))
+		return false;
+
+	size_t i;
+	for (i = 0; i < ddar->size; i++)
+	{
+		if (str_equals(name, ddar->buffer[i]->name))
 			return true;
 	}
 
@@ -387,6 +405,36 @@ Status ddar_realloc(DirectoryDynamicArray *ddar)
 	}
 
 	ddar->buffer = new_buffer;
+
+	return DS_OK;
+}
+
+
+// Exclusive use
+Status dir_input(DirectoryDynamicArray *global_list, Directory **result, Directory *parent, String *name, User *owner)
+{
+	String *dir_name;
+
+	Status st = str_init(&dir_name);
+
+	if (st != DS_OK)
+		return st;
+
+	st = str_append(dir_name, name);
+
+	if (st != DS_OK)
+		return st;
+
+	st = dir_make(result, parent, owner, dir_name);
+
+	if (st != DS_OK)
+		return st;
+
+	st += ddar_insert_back(parent->children, (*result));
+	st += ddar_insert_back(global_list, (*result));
+
+	if (st != DS_OK)
+		return st;
 
 	return DS_OK;
 }
