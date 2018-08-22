@@ -257,6 +257,8 @@ Status shandler_make_prompt(User *curr_user, Directory *curr_dir, String *result
 
 	st += str_push_char_back(result, ':');
 
+	st += str_push_char_back(result, '~');
+
 	if (st != DS_OK)
 		return st;
 
@@ -278,17 +280,18 @@ Status shandler_make_prompt(User *curr_user, Directory *curr_dir, String *result
 		if (str_equals(scan->name, curr_user->name))
 		{
 			// Home directory
-			st += str_append(c_dir, home);
+			st += str_prepend(c_dir, home);
 
 			is_home = true;
 		}
 		else if (scan->parent != NULL)
-			st += str_append(c_dir, scan->name);
-
-		st += str_push_char_front(c_dir, '/');
+			st += str_prepend(c_dir, scan->name);
 
 		if (st != DS_OK)
 			return st;
+
+		if (!str_eqstr(scan->name, "/") || c_dir->len == 0)
+			st += str_push_char_front(c_dir, '/');
 
 		scan = scan->parent;
 

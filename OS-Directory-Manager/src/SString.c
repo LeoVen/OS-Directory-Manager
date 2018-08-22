@@ -34,6 +34,8 @@ Status str_init(String **str)
 	if (!((*str)->buffer))
 		return DS_ERR_ALLOC;
 
+	(*str)->buffer[0] = '\0';
+
 	(*str)->capacity = _STRING_INIT_SIZE;
 	(*str)->growth_rate = _STRING_GROW_RATE;
 
