@@ -3,6 +3,7 @@
 ## Important TO-DOs:
 
 * Remove all directories inside /home directory if a user is deleted including root folders (currently directories are deleted by name)
+* Change global id as users are loaded from file
 
 ## Functions
 

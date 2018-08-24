@@ -31,8 +31,6 @@ extern "C" {
 #include <conio.h>
 #include <Windows.h>
 
-#define DIR_FILE_NAME "directory.txt"
-#define USR_FILE_NAME "user.txt"
 #define MACHINE_NAME "ubuntu"
 
 #define CLEAR_SCREEN system("cls")
