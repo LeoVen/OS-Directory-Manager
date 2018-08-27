@@ -1,0 +1,3 @@
+leo,leonard,ven,1,0,0
+edu,edward,ven,2,0,1
+alan,alan turing,machine,1,0,0

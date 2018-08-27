@@ -1,9 +1,10 @@
 /**
  * @file FileHandler.h
  *
- * @author Leonardo Vencovsky (https://github.com/LeoVen)
- * @author Eduardo Vencovsky  (https://github.com/eduvencovsky)
- * @author Guilherme Pinazza  (https://github.com/pinazza)
+ * @author Leonardo Vencovsky       (https://github.com/LeoVen)
+ * @author Eduardo Vencovsky        (https://github.com/eduvencovsky)
+ * @author Guilherme Pinazza        (https://github.com/pinazza)
+ * @author Erick Domingos Modenez
  *
  * @date 22/08/2018
  *
