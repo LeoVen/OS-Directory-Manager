@@ -24,7 +24,7 @@ extern "C" {
 #define DIR_FILE_NAME "directory.txt"
 #define USR_FILE_NAME "user.txt"
 
-	int f_load_dir(DirectoryDynamicArray *array);
+	int f_load_dir(DirectoryDynamicArray *dir_list, UserDynamicArray *usr_list);
 	int f_save_dir(DirectoryDynamicArray *array);
 
 	int f_load_usr(UserDynamicArray *array);

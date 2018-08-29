@@ -14,10 +14,180 @@
 
 #include "FileHandler.h"
 
-int f_load_dir(DirectoryDynamicArray *array)
+int f_load_dir(DirectoryDynamicArray *dir_list, UserDynamicArray *usr_list)
 {
+	FILE *file;
 
-	return 0;
+	String *text;
+
+	Status st = str_init(&text);
+
+	if (st != DS_OK)
+		return st;
+
+	fopen_s(&file, DIR_FILE_NAME, "r");
+
+	if (!file)
+		return DS_ERR_NULL_POINTER;
+
+	char c;
+
+
+	while (1)
+	{
+		c = fgetc(file);
+
+		if (c == EOF)
+			break;
+
+		st = str_push_char_back(text, c);
+
+		if (st != DS_OK)
+			return st;
+	}
+
+	fclose(file);
+
+	if (text->len == 0)
+	{
+		str_delete(&text);
+		return DS_OK;
+	}
+	
+	// Making directories from data
+	// Owner and parent are later linked by searching by name in array
+	String *name, *time, *owner_s, *parent_s;
+
+	Directory *directory;
+	size_t usr_index, dir_index;
+
+	while (text->len > 1)
+	{
+		st += str_init(&name);
+		st += str_init(&time);
+		st += str_init(&owner_s);  // Search only -> delete
+		st += str_init(&parent_s); // Search only -> delete
+
+		// dir_name
+		while (1)
+		{
+			c = text->buffer[0];
+
+			st = str_pop_char_front(text);
+
+			if (st != DS_OK)
+				return st;
+
+			if (c == ',')
+				break;
+
+			st = str_push_char_back(name, c);
+
+			if (st != DS_OK)
+				return st;
+		}
+
+		// dir_time
+		while (1)
+		{
+			c = text->buffer[0];
+
+			st = str_pop_char_front(text);
+
+			if (st != DS_OK)
+				return st;
+
+			if (c == ',')
+				break;
+
+			st = str_push_char_back(time, c);
+
+			if (st != DS_OK)
+				return st;
+		}
+
+		// owner_name
+		while (1)
+		{
+			c = text->buffer[0];
+
+			st = str_pop_char_front(text);
+
+			if (st != DS_OK)
+				return st;
+
+			if (c == ',')
+				break;
+
+			st = str_push_char_back(owner_s, c);
+
+			if (st != DS_OK)
+				return st;
+		}
+
+		// parent_name
+		while (1)
+		{
+			c = text->buffer[0];
+
+			st = str_pop_char_front(text);
+
+			if (st != DS_OK)
+				return st;
+
+			if (c == '\n')
+				break;
+
+			st = str_push_char_back(parent_s, c);
+
+			if (st != DS_OK)
+				return st;
+		}
+
+		// Find owner
+		st = udar_find(usr_list, owner_s, &usr_index);
+
+		if (st != DS_OK)
+			return st;
+
+		// Find parent
+		st = ddar_find(dir_list, parent_s, &dir_index);
+
+		if (st != DS_OK)
+			return st;
+
+		// make directory
+		st = dir_make(&directory, dir_list->buffer[dir_index], usr_list->buffer[usr_index], name);
+
+		if (st != DS_OK)
+			return st;
+
+		// change time
+		str_delete(&(directory->time));
+
+		directory->time = time;
+
+		// Add to global list
+		st = ddar_insert_back(dir_list, directory);
+
+		if (st != DS_OK)
+			return st;
+
+		// Add to parent's list
+		st = ddar_insert_back(dir_list->buffer[dir_index]->children, directory);
+
+		if (st != DS_OK)
+			return st;
+
+		name = NULL;
+		time = NULL;
+		str_delete(&owner_s);
+		str_delete(&parent_s);
+	}
+
+	str_delete(&text);
+
+	return DS_OK;
 }
 
 /**
@@ -41,8 +211,11 @@ int f_save_dir(DirectoryDynamicArray *array)
 	{
 		dir = array->buffer[i];
 
-		fprintf(file, "%s,%s,%s,%s\n", dir->name->buffer, dir->time->buffer,
-			dir->owner->name->buffer, (dir->parent) ? dir->parent->name->buffer : "0");
+		// Without root being added to the file there shouldn't be a problem when
+		// the parent directory is NULL but the ternary operator is kept just for safety
+		if (!str_eqstr(dir->name, "/"))
+			fprintf(file, "%s,%s,%s,%s\n", dir->name->buffer, dir->time->buffer,
+				dir->owner->name->buffer, (dir->parent) ? dir->parent->name->buffer : "0");
 	}
 
 	fclose(file);
@@ -85,10 +258,12 @@ int f_load_usr(UserDynamicArray *array)
 	fclose(file);
 
 	if (text->len == 0)
+	{
+		str_delete(&text);
 		return DS_OK;
+	}
 
 	// Making users from data
-
 	User *user;
 	String *name, *full_name, *password, *id_s;
 	size_t id;
@@ -231,6 +406,7 @@ int f_load_usr(UserDynamicArray *array)
 		user->locked = locked;
 		user->root = root;
 
+		// Add to global list
 		st = udar_insert_back(array, user);
 
 		if (st != DS_OK)
@@ -243,10 +419,6 @@ int f_load_usr(UserDynamicArray *array)
 		password = NULL;
 		str_delete(&id_s);
 	}
-
-	str_delete(&name);
-	str_delete(&full_name);
-	str_delete(&password);
 
 	str_delete(&text);
 

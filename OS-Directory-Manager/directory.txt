@@ -1,1 +1,8 @@
-/,08/27/18 16:09:57,root,0
+alan,08/28/18 23:31:35,alan,/
+ada,08/28/18 23:31:54,ada,/
+my_lovely_programs,08/28/18 23:58:39,ada,ada
+paper_stuff,08/28/18 23:58:46,ada,ada
+project_enigma,08/28/18 23:59:12,alan,alan
+files,08/28/18 23:59:20,alan,project_enigma
+works,08/28/18 23:59:23,alan,project_enigma
+papers,08/28/18 23:59:25,alan,project_enigma
