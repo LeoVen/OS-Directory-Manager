@@ -69,11 +69,8 @@ Status usr_display_noroot(User *usr)
 		return DS_ERR_NULL_POINTER;
 
 	printf("\n ---------- User ---------- \n");
-	printf("\n Id        : %zu", usr->id);
 	printf("\n Name      : %s", usr->name->buffer);
 	printf("\n Full Name : %s", usr->full_name->buffer);
-	printf("\n Is root   : %s", (usr->root) ? "yes" : "no");
-	printf("\n Is locked : %s", (usr->locked) ? "yes" : "no");
 	printf("\n -------------------------- \n");
 
 	return DS_OK;
