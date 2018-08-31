@@ -159,8 +159,10 @@ void copyright(void)
 	printf("|                                                                                |\n");
 	printf("+--------------------------------------------------------------------------------+\n");
 	printf("\n");
-	printf(" Eduardo Vencovsky   201710281  https://github.com/eduvencovsky \n");
-	printf(" Guilherme Pinazza   201710351  https://github.com/pinazza \n");
-	printf(" Leonardo Vencovsky  201710276  https://github.com/LeoVen \n");
+	printf(" Eduardo Vencovsky       201710281  \n");
+	printf(" Guilherme Pinazza       201710351  \n");
+	printf(" Leonardo Vencovsky      201710276  \n");
+	printf(" Erick Domingos Modenez  201710299  \n");
+	
 	printf("\n");
 }
